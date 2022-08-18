@@ -60,10 +60,11 @@ public:
     ofxCv::ContourFinder    contourFinder;
     
     bool                    trackColor;
+    bool                    trackHs;
     bool                    captureColor;
     ofColor                 targetColor;
     
-    int                     threshold;
+    float                     threshold;
     bool                    invert;
     bool                    findHoles;
     

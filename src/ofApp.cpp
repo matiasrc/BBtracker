@@ -12,7 +12,6 @@ void ofApp::setup() {
     loadSettings();
     
     //----------------- CAM -------------------
-    setupCam(deviceID);
     //viewCam            = false;  // en el XML
     camWidth            = 640;
     camHeight           = 480;
@@ -24,6 +23,8 @@ void ofApp::setup() {
     //vMirror             = false; // en el XML
        
     isOneDeviceAvailable =  false;
+    
+    setupCam(deviceID);
     
     imitate(camPixels, cam);
     
@@ -155,7 +156,7 @@ void ofApp::update() {
             contourFinder.findContours(bitonal);
         }else{
             if(trackColor){
-                contourFinder.setTargetColor(targetColor);
+                contourFinder.setTargetColor(targetColor, trackHs ? TRACK_COLOR_HS : TRACK_COLOR_RGB);
             }
             //------- CONTOUR FINDER ---------
             contourFinder.findContours(camPixels);
@@ -298,7 +299,6 @@ void ofApp::draw() {
             ofDrawLine(p1.x / camWidth * w, p1.y / camHeight * h,
                        p2.x / camWidth * w, p2.y / camHeight * h);
             
-            ofDrawLine(p1.x, p1.y, p2.x , p2.y );
         }
         
         ofSetColor(yellowPrint);
@@ -478,6 +478,7 @@ void ofApp::loadSettings(){
     invert = XML.getValue("CV:INVERT", false);
     findHoles = XML.getValue("CV:FINDHOLES", false);
     trackColor = XML.getValue("CV:TRACKCOLOR", false);
+    trackHs = XML.getValue("CV:TRACKHS", false);
 
     
     ofLog(OF_LOG_NOTICE,xmlMessage);
@@ -520,6 +521,7 @@ void ofApp::saveSettings(){
     XML.setValue("CV:INVERT", invert);
     XML.setValue("CV:FINDHOLES", findHoles);
     XML.setValue("CV:TRACKCOLOR", trackColor);
+    XML.setValue("CV:TRACKHS", trackHs);
 
         
     XML.saveFile("mySettings.xml");

@@ -96,7 +96,7 @@ void ofApp::drawGui(){
             ImGui::Checkbox("ventana flotante", &show_bd_config_panel);
             ImGui::Separator();
             
-            ImGui::SliderInt("umbral", &threshold, 1, 255); ImGui::SameLine(); HelpMarker("Umbral de brillo para detectar blobs");
+            ImGui::SliderFloat("umbral", &threshold, 0.0f, 255.0f); ImGui::SameLine(); HelpMarker("Umbral de brillo para detectar blobs");
             
             ImGui::SliderFloat("tamaño mínimo de objeto", &minArea, 0.01f , 50.0f); ImGui::SameLine(); HelpMarker("tamaño mínimo para detedtar un objeto, en porcentaje ");
             ImGui::SliderFloat("tamaño máximo de objeto", &maxArea, 0.2f, 100.0f); ImGui::SameLine(); HelpMarker("tamaño máximo para detedtar un objeto");
@@ -110,6 +110,7 @@ void ofApp::drawGui(){
             ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
             ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
             ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
+            ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde");
 
             contourFinder.setThreshold(threshold);
             contourFinder.setMinArea(minArea / 100 * imagePixelNumber);
@@ -120,7 +121,7 @@ void ofApp::drawGui(){
             contourFinder.getTracker().setPersistence(persistence);
             // an object can move up to 32 pixels per frame
             contourFinder.getTracker().setMaximumDistance(distance);
-            contourFinder.setUseTargetColor(trackColor); // define si detecta o no un color
+            contourFinder.setTargetColor(targetColor, trackHs ? ofxCv::TRACK_COLOR_HS : ofxCv::TRACK_COLOR_RGB); // define si detecta o no un color
 
             ImGui::EndMenu();
         }
@@ -268,11 +269,11 @@ void ofApp::drawGui(){
     if (show_bd_config_panel)
     {
 
-        ImGui::SetNextWindowSize(ofVec2f(350,370), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ofVec2f(350,400), ImGuiCond_FirstUseEver);
         ImGui::Begin("Blob detection", &show_bd_config_panel);
         
         {
-           ImGui::SliderInt("umbral", &threshold, 1, 255); ImGui::SameLine(); HelpMarker("Umbral de brillo para detectar blobs");
+           ImGui::SliderFloat("umbral", &threshold, 0.0f, 255.0f); ImGui::SameLine(); HelpMarker("Umbral de brillo para detectar blobs");
            
            ImGui::SliderFloat("tamaño mínimo de objeto", &minArea, 0.01f , 50.0f); ImGui::SameLine(); HelpMarker("tamaño mínimo para detedtar un objeto, en porcentaje ");
            ImGui::SliderFloat("tamaño máximo de objeto", &maxArea, 0.2f, 100.0f); ImGui::SameLine(); HelpMarker("tamaño máximo para detedtar un objeto");
@@ -286,6 +287,7 @@ void ofApp::drawGui(){
            ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
            ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
            ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
+           ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde");
 
            contourFinder.setThreshold(threshold);
            contourFinder.setMinArea(minArea / 100 * imagePixelNumber);
@@ -296,7 +298,7 @@ void ofApp::drawGui(){
            contourFinder.getTracker().setPersistence(persistence);
            // an object can move up to 32 pixels per frame
            contourFinder.getTracker().setMaximumDistance(distance);
-           contourFinder.setUseTargetColor(trackColor); // define si detecta o no un color
+            contourFinder.setTargetColor(targetColor, trackHs ? ofxCv::TRACK_COLOR_HS : ofxCv::TRACK_COLOR_RGB); // define si detecta o no un color
         }
         
         ImGui::End();
