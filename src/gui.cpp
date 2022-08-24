@@ -131,6 +131,7 @@ void ofApp::drawGui(){
             // Using the _simplified_ one-liner Combo() api here
             // See "Combo" section for examples of how to use the more complete BeginCombo()/EndCombo() api.
             //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", //"KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
+            /*
             const char* items[devicesVector.size()];
             //static int item_current = 0;
             for(int i=0; i<devicesVector.size(); i++){
@@ -140,6 +141,23 @@ void ofApp::drawGui(){
             if(ImGui::Combo(" ", &deviceID, items, IM_ARRAYSIZE(items))){
                 resetCameraSettings(deviceID);
                 ofLogVerbose() << "--------CAMBIO DE CAMARA - DIVICE ID: " << deviceID;
+            }
+            */
+            
+            int selectedIndex = deviceID;
+            if(ImGui::BeginCombo(" ", devicesVector[0].c_str())){
+    
+                for(int i=0; i < devicesVector.size(); ++i){
+                    const bool isSelected = (selectedIndex == i);
+                    if(ImGui::Selectable(devicesVector[i].c_str(), isSelected)){
+                        selectedIndex = i;
+                        resetCameraSettings(selectedIndex);
+                    }
+                    if(isSelected){
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+            ImGui:ImGui::EndCombo();
             }
             ImGui::SameLine(); HelpMarker("Elegir el dispositivo de entrada");
             
