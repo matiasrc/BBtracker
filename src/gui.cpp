@@ -27,36 +27,6 @@ static void HelpMarker(const char* desc)
 void ofApp::drawGui(){
     //required to call this at beginning
     gui.begin();
-    
-    bool closeWindow = true;
-
-    bool * p_open = &closeWindow;
-    
-    // Demonstrate the various window flags. Typically you would just use the default!
-    static bool no_titlebar = false;
-    static bool no_scrollbar = false;
-    static bool no_menu = false;
-    static bool no_move = false;
-    static bool no_resize = false;
-    static bool no_collapse = true;
-    static bool no_close = true;
-    static bool no_nav = false;
-    static bool no_background = false;
-    static bool no_bring_to_front = false;
-
-    ImGuiWindowFlags window_flags = 0;
-    if (no_titlebar)        window_flags |= ImGuiWindowFlags_NoTitleBar;
-    if (no_scrollbar)       window_flags |= ImGuiWindowFlags_NoScrollbar;
-    if (!no_menu)           window_flags |= ImGuiWindowFlags_MenuBar;
-    if (no_move)            window_flags |= ImGuiWindowFlags_NoMove;
-    if (no_resize)          window_flags |= ImGuiWindowFlags_NoResize;
-    if (no_collapse)        window_flags |= ImGuiWindowFlags_NoCollapse;
-    if (no_nav)             window_flags |= ImGuiWindowFlags_NoNav;
-    if (no_background)      window_flags |= ImGuiWindowFlags_NoBackground;
-    if (no_bring_to_front)  window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
-    if (no_close)           p_open = NULL; // Don't pass our bool* to Begin
-    
-    
     // -------- MENU PRINCIPAL --------
     if (ImGui::BeginMainMenuBar())
     {
@@ -109,6 +79,7 @@ void ofApp::drawGui(){
             
             ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
             ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
+            ImGui::Separator();
             ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
             ImGui::SameLine();
             ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde)");
@@ -128,22 +99,6 @@ void ofApp::drawGui(){
         }
         if (ImGui::BeginMenu("| Entrada"))
         {
-            // Using the _simplified_ one-liner Combo() api here
-            // See "Combo" section for examples of how to use the more complete BeginCombo()/EndCombo() api.
-            //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", //"KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
-            /*
-            const char* items[devicesVector.size()];
-            //static int item_current = 0;
-            for(int i=0; i<devicesVector.size(); i++){
-                
-                items[i] = devicesVector[i].c_str();
-            }
-            if(ImGui::Combo(" ", &deviceID, items, IM_ARRAYSIZE(items))){
-                resetCameraSettings(deviceID);
-                ofLogVerbose() << "--------CAMBIO DE CAMARA - DIVICE ID: " << deviceID;
-            }
-            */
-            
             int selectedIndex = deviceID;
             if(ImGui::BeginCombo(" ", devicesVector[0].c_str())){
     
@@ -305,6 +260,7 @@ void ofApp::drawGui(){
            
            ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
            ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
+           ImGui::Separator();
            ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
            ImGui::SameLine();
            ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde)");
@@ -320,7 +276,6 @@ void ofApp::drawGui(){
            contourFinder.getTracker().setMaximumDistance(distance);
             contourFinder.setTargetColor(targetColor, trackHs ? ofxCv::TRACK_COLOR_HS : ofxCv::TRACK_COLOR_RGB); // define si detecta o no un color
         }
-        
         ImGui::End();
     }
     gui.end();
