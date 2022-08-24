@@ -110,7 +110,8 @@ void ofApp::drawGui(){
             ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
             ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
             ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
-            ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde");
+            ImGui::SameLine();
+            ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde)");
 
             contourFinder.setThreshold(threshold);
             contourFinder.setMinArea(minArea / 100 * imagePixelNumber);
@@ -287,7 +288,8 @@ void ofApp::drawGui(){
            ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
            ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
            ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
-           ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde");
+           ImGui::SameLine();
+           ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde)");
 
            contourFinder.setThreshold(threshold);
            contourFinder.setMinArea(minArea / 100 * imagePixelNumber);

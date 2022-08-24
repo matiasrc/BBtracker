@@ -64,7 +64,7 @@ public:
     bool                    captureColor;
     ofColor                 targetColor;
     
-    float                     threshold;
+    float                   threshold;
     bool                    invert;
     bool                    findHoles;
     

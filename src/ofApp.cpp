@@ -92,6 +92,7 @@ void ofApp::update() {
         camPixels.mirror(vMirror, hMirror);
         
         if(useBgSubtraction){
+            
             //------BG SUBTRACTION-------------
             
             colorImg.setFromPixels(camPixels);
@@ -153,6 +154,7 @@ void ofApp::update() {
                 //finalBg.updateTexture();
             }
             //------- CONTOUR FINDER ---------
+            contourFinder.setUseTargetColor(false);
             contourFinder.findContours(bitonal);
         }else{
             if(trackColor){
@@ -163,11 +165,6 @@ void ofApp::update() {
         }
         
         activeBlobs = contourFinder.size();
-        
-        vector<float> dataBlobs;
-        vector<float> dataCountours;
-        
-        dataBlobs.push_back(static_cast<float>(activeBlobs));
         
         for(int i=0; i<activeBlobs; i++){
             
@@ -191,51 +188,48 @@ void ofApp::update() {
             // contour
             ofPolyline contour = toOf(contourFinder.getContour(i));
 
-            // 2
-            dataBlobs.push_back(static_cast<float>(label));
-            dataBlobs.push_back(static_cast<float>(age));
+            if (enviarBlobs){
+                vector<float> dataBlobs;
+                
+                // 2
+                dataBlobs.push_back(static_cast<float>(label));         // 0
+                dataBlobs.push_back(static_cast<float>(age));           // 1
 
-            // 6
-            dataBlobs.push_back(centroid.x / camWidth);
-            dataBlobs.push_back(centroid.y / camHeight);
-            dataBlobs.push_back(average.x / camWidth);
-            dataBlobs.push_back(average.y / camHeight);
-            dataBlobs.push_back(center.x / camWidth);
-            dataBlobs.push_back(center.y / camHeight);
+                // 6
+                dataBlobs.push_back(centroid.x / camWidth);             // 2
+                dataBlobs.push_back(centroid.y / camHeight);            // 3
+                dataBlobs.push_back(average.x / camWidth);              // 4
+                dataBlobs.push_back(average.y / camHeight);             // 5
+                dataBlobs.push_back(center.x / camWidth);               // 6
+                dataBlobs.push_back(center.y / camHeight);              // 7
 
-            // 2
-            dataBlobs.push_back(velocity.x / camWidth);
-            dataBlobs.push_back(velocity.y / camHeight);
+                // 2
+                dataBlobs.push_back(velocity.x / camWidth);             // 8
+                dataBlobs.push_back(velocity.y / camHeight);            // 9
 
-            // 2
-            dataBlobs.push_back(area / (camWidth * camHeight));
-            dataBlobs.push_back(perimeter / (camWidth * camHeight));
+                // 2
+                dataBlobs.push_back(area / (camWidth * camHeight));     // 10
+                dataBlobs.push_back(perimeter / (camWidth * camHeight));// 11
 
-            // 4
-            dataBlobs.push_back(boundingRect.x / camWidth);
-            dataBlobs.push_back(boundingRect.y / camHeight);
-            dataBlobs.push_back(boundingRect.width / camWidth);
-            dataBlobs.push_back(boundingRect.height / camHeight);
-            
-            
-            // 1
-            dataCountours.push_back(contour.getVertices().size());
-
-            // 2
-            dataCountours.push_back(static_cast<float>(label));
-            dataCountours.push_back(static_cast<float>(age));
-
-            // contour.getVertices().size() * 2
-            for(int c=0;c<contour.getVertices().size();c++){
-                dataCountours.push_back(contour.getVertices().at(c).x / camWidth);
-                dataCountours.push_back(contour.getVertices().at(c).y / camHeight);
+                // 4
+                dataBlobs.push_back(boundingRect.x / camWidth);         // 12
+                dataBlobs.push_back(boundingRect.y / camHeight);        // 13
+                dataBlobs.push_back(boundingRect.width / camWidth);     // 14
+                dataBlobs.push_back(boundingRect.height / camHeight);   // 15
+                
+                // 1
+                dataBlobs.push_back(contour.getVertices().size());      // 16
+                
+                if(enviarContornos){
+                    for(int c=0;c<contour.getVertices().size();c++){    // 17+
+                        dataBlobs.push_back(contour.getVertices().at(c).x / camWidth);
+                        dataBlobs.push_back(contour.getVertices().at(c).y / camHeight);
+                    }
+                }
+                enviarOsc(etiquetaMensajeBlobs, dataBlobs);
             }
-        
-        //ofLogNotice()<< "total blobs: " + ofToString(activeBlobs);
-        //ofLogNotice()<< "blob size: " + ofToString(dataBlobs.size());
         }
-        if (enviarBlobs) enviarOsc(etiquetaMensajeBlobs, dataBlobs);
-        if (enviarContornos) enviarOsc(etiquetaMensajeContornos, dataCountours);
+        
     }
     ofSetFullscreen(fullScreen);
 }
@@ -298,7 +292,6 @@ void ofApp::draw() {
             cv::Point p2 = contourFinder.getContour(i).at(j+1);
             ofDrawLine(p1.x / camWidth * w, p1.y / camHeight * h,
                        p2.x / camWidth * w, p2.y / camHeight * h);
-            
         }
         
         ofSetColor(yellowPrint);
@@ -396,32 +389,26 @@ void ofApp::enviarOsc(string etiqueta, vector<float> valores){
     
     
     /*
-     [0] --> number of active blobs
-     [1] --> blob ID                      --> accessible as _mosaic_data_inlet[1 + 16*N] for N blobs
-     [2] --> blob age (milliseconds)      --> accessible as _mosaic_data_inlet[2 + 16*N] for N blobs
-     [3] --> blob centroid X              --> accessible as _mosaic_data_inlet[3 + 16*N] for N blobs
-     [4] --> blob centroid Y              --> accessible as _mosaic_data_inlet[4 + 16*N] for N blobs
-     [5] --> blob average X               --> accessible as _mosaic_data_inlet[5 + 16*N] for N blobs
-     [6] --> blob average Y               --> accessible as _mosaic_data_inlet[6 + 16*N] for N blobs
-     [7] --> blob center X                --> accessible as _mosaic_data_inlet[7 + 16*N] for N blobs
-     [8] --> blob center Y                --> accessible as _mosaic_data_inlet[8 + 16*N] for N blobs
-     [9] --> blob velocity X             --> accessible as _mosaic_data_inlet[9 + 16*N] for N blobs
-     [10] --> blob velocity Y             --> accessible as _mosaic_data_inlet[10 + 16*N] for N blobs
-     [11] --> blob area                   --> accessible as _mosaic_data_inlet[11 + 16*N] for N blobs
-     [12] --> blob perimeter              --> accessible as _mosaic_data_inlet[12 + 16*N] for N blobs
-     [13] --> blob bounding rect X        --> accessible as _mosaic_data_inlet[13 + 16*N] for N blobs
-     [14] --> blob bounding rect Y        --> accessible as _mosaic_data_inlet[14 + 16*N] for N blobs
-     [15] --> blob bounding rect Width    --> accessible as _mosaic_data_inlet[15 + 16*N] for N blobs
-     [16] --> blob bounding rect Height   --> accessible as _mosaic_data_inlet[16 + 16*N] for N blobs
-     
-     
-     contornos
-     
-     [0] --> number of active blobs
-     [1] --> number of contour vertices
-     [2] --> blob ID
-     [3] --> blob_age (milliseconds)
-     [4] --> [5+(_mosaic_data_inlet[2] * 2)] --> blob contour vertices
+     [0] --> blob ID
+     [1] --> blob age (milliseconds)
+     [2] --> blob centroid X
+     [3] --> blob centroid Y
+     [4] --> blob average X
+     [5] --> blob average Y
+     [6] --> blob center X
+     [7] --> blob center Y
+     [8] --> blob velocity X
+     [9] --> blob velocity Y
+     [10] --> blob area
+     [11] --> blob perimeter
+     [12] --> blob bounding rect X
+     [13] --> blob bounding rect Y
+     [14] --> blob bounding rect Width
+     [15] --> blob bounding rect Height
+     [16] --> Number of Contours vertices
+     if(enviarContornos){
+        [17+] --> Contours vertices
+     }
     */
     
 }
