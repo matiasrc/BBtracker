@@ -30,7 +30,7 @@ void ofApp::drawGui(){
     // -------- MENU PRINCIPAL --------
     if (ImGui::BeginMainMenuBar())
     {
-        if (ImGui::BeginMenu("| Sustracción de fondo"))
+        if (ImGui::BeginMenu("|Sustracción de fondo|"))
         {
             ImGui::Checkbox("ventana flotante", &show_bg_config_panel);
             ImGui::Separator();
@@ -61,7 +61,7 @@ void ofApp::drawGui(){
             ImGui::EndMenu();
         }
         
-        if (ImGui::BeginMenu("| Blob Detection"))
+        if (ImGui::BeginMenu("|Blob Detection|"))
         {
             ImGui::Checkbox("ventana flotante", &show_bd_config_panel);
             ImGui::Separator();
@@ -97,7 +97,7 @@ void ofApp::drawGui(){
 
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("| Entrada"))
+        if (ImGui::BeginMenu("|Entrada|"))
         {
             int selectedIndex = deviceID;
             if(ImGui::BeginCombo(" ", devicesVector[0].c_str())){
@@ -123,7 +123,7 @@ void ofApp::drawGui(){
             ImGui::EndMenu();
         }
         
-        if (ImGui::BeginMenu("| OSC"))
+        if (ImGui::BeginMenu("|OSC|"))
         {
             if(ImGui::InputInt("port", &puerto)) sender.setup(host, puerto);
             ImGui::SameLine(); HelpMarker("puerto de conección");
@@ -143,7 +143,7 @@ void ofApp::drawGui(){
             
             static char blobsaddress[128];
             strcpy(blobsaddress, etiquetaMensajeBlobs.c_str());
-            if( ImGui::InputTextWithHint("address1", "tipear etiqueta BLOBS",blobsaddress, IM_ARRAYSIZE(blobsaddress))){
+            if( ImGui::InputTextWithHint("address", "tipear etiqueta BLOBS",blobsaddress, IM_ARRAYSIZE(blobsaddress))){
                 etiquetaMensajeBlobs = ofVAArgsToString(blobsaddress);
                 //ofLogVerbose() << "--------CAMBIO DE ETIQUETA: " << movimientoaddress;
             }
@@ -152,20 +152,12 @@ void ofApp::drawGui(){
             ImGui::Checkbox("ENVIAR BLOBS", &enviarBlobs);
             ImGui::SameLine(); HelpMarker("habilitar / deshabilitar el envío de blobs");
             
-            static char contourssaddress[128];
-            strcpy(contourssaddress, etiquetaMensajeContornos.c_str());
-            if( ImGui::InputTextWithHint("address2", "tipear etiqueta CONTORNOS",contourssaddress, IM_ARRAYSIZE(contourssaddress))){
-                etiquetaMensajeContornos = ofVAArgsToString(contourssaddress);
-                //ofLogVerbose() << "--------CAMBIO DE ETIQUETA: " << movimientoaddress;
-            }
-            ImGui::SameLine(); HelpMarker("etiqueta (debe comenzar con /) ");
-            
             ImGui::Checkbox("ENVIAR CONTORNOS", &enviarContornos);
             ImGui::SameLine(); HelpMarker("habilitar / deshabilitar el envío de contornos");
             
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("| Ver"))
+        if (ImGui::BeginMenu("|ver|"))
         {
             ImGui::RadioButton("original", &bgImageShow, 0);
             ImGui::RadioButton("escala de grises", &bgImageShow, 1);
@@ -174,7 +166,7 @@ void ofApp::drawGui(){
             
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("| Acerca"))
+        if (ImGui::BeginMenu("|Acerca|"))
         {
             ImGui::Text("BBlobTracker");
             ImGui::Separator();

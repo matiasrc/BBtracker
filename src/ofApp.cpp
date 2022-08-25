@@ -518,10 +518,18 @@ void ofApp::saveSettings(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(ofKeyEventArgs& e){
-    //no data gets saved unless you hit the s key
+    
+    #if __APPLE__
     if(e.key == 's' && e.hasModifier(OF_KEY_COMMAND)){
         saveSettings();
-    }else if(e.key == 'c'){
+    }
+    #else
+    if(e.key == 19 ){
+        saveSettings();
+    }
+    
+    #endif
+    else if(e.key == 'c'){
         captureColor = true;
     }else if(e.key == ' '){
         bLearnBackground = true;
