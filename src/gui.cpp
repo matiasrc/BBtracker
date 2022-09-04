@@ -1,10 +1,4 @@
-//
-//  funcionesApp.cpp
-//  sincro2Ableton
-//
-//  Created by Matias Romero Costas on 10/14/17.
-//
-//
+
 
 #include "ofApp.h"
 

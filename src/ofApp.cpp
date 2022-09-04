@@ -437,7 +437,6 @@ void ofApp::loadSettings(){
     host = XML.getValue("OSC:HOST", "127.0.0.1");
     etiquetaMensajeBlobs = XML.getValue("OSC:ETIQUETA:BLOBS", "/bblobtracke/blobs");
     enviarBlobs = XML.getValue("OSC:ENVIARBLOBS", true);
-    etiquetaMensajeContornos = XML.getValue("OSC:ETIQUETA:CONTORNOS", "/bblobtracke/contornos");
     enviarContornos = XML.getValue("OSC:ENVIARCONTORNOS", false);
     
     //---------------- CAM --------------------

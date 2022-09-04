@@ -90,7 +90,6 @@ public:
     int puerto;
     string host;
     string etiquetaMensajeBlobs;
-    string etiquetaMensajeContornos;
     bool enviarBlobs;
     bool enviarContornos;
     
