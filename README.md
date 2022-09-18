@@ -2,7 +2,7 @@
 Blob tracking with background subtraction and color tracking application, made with Openframeworks
 
 
-## DEPENDEMCIES ##
+## DEPENDENCIES ##
 
 ofxOpenCv (included in Of Core)
 
