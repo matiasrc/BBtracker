@@ -92,35 +92,37 @@ void ofApp::drawGui(){
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("|Entrada|"))
-        {
-            int selectedIndex = deviceID;
-            if(ImGui::BeginCombo(" ", devicesVector[0].c_str())){
-    
-                for(int i=0; i < devicesVector.size(); ++i){
-                    const bool isSelected = (selectedIndex == i);
-                    if(ImGui::Selectable(devicesVector[i].c_str(), isSelected)){
-                        selectedIndex = i;
-                        resetCameraSettings(selectedIndex);
+            {
+                static const char* item_current = devicesVector[deviceID].c_str();
+                if(ImGui::BeginCombo(" ", item_current)){
+        
+                    for(int i=0; i < devicesVector.size(); ++i){
+                        const bool isSelected = (deviceID == i);
+                        if(ImGui::Selectable(devicesVector[i].c_str(), isSelected)){
+                            deviceID = i;
+                            resetCameraSettings(deviceID);
+                            item_current = devicesVector[i].c_str();
+                        }
+                        if(isSelected){
+                            ImGui::SetItemDefaultFocus();
+                        }
                     }
-                    if(isSelected){
-                        ImGui::SetItemDefaultFocus();
-                    }
+                ImGui::EndCombo();
                 }
-            ImGui:ImGui::EndCombo();
-            }
-            ImGui::SameLine(); HelpMarker("Elegir el dispositivo de entrada");
-            
-            ImGui::Separator();
-            ImGui::Checkbox("ESPEJAR HORIZONTAL", &hMirror);
-            ImGui::Checkbox("ESPEJAR VERTICAL", &vMirror);
-            
+                ImGui::SameLine(); HelpMarker("Elegir el dispositivo de entrada");
+                
+                ImGui::Separator();
+                ImGui::Checkbox("ESPEJAR HORIZONTAL", &hMirror);
+                ImGui::Checkbox("ESPEJAR VERTICAL", &vMirror);
+                        
             ImGui::EndMenu();
+
         }
         
         if (ImGui::BeginMenu("|OSC|"))
         {
             if(ImGui::InputInt("port", &puerto)) sender.setup(host, puerto);
-            ImGui::SameLine(); HelpMarker("puerto de conección");
+            ImGui::SameLine(); HelpMarker("puerto de conexión");
             
             static char str1[128];
             strcpy(str1, host.c_str());
