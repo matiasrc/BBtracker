@@ -14,7 +14,7 @@ ofxXmlSettings (included in Of Core)
 
 [ofxImGui](https://github.com/jvcleave/ofxImGui)
 
-TODO
+### TODO ###
 
 - simplificar contornos de blobs
 - entrada de Syphon y Spout
