@@ -17,11 +17,16 @@ public:
     void setupCam(int devID);
     void resetCameraSettings(int devID);
     void mousePressed(int x, int y, int button);
+    void mouseReleased(int x, int y, int button);
+    void mouseDragged(int x, int y, int button);
 
+    //----------------- VIEW -------------------
+    int                     imageView;
 	
     //----------------- CAM -------------------
     ofVideoGrabber          cam;
-    ofImage                 camPixels;
+    ofxCvColorImage         mirroredImg;
+    ofxCvColorImage         warpedImg;
     vector<ofVideoDevice>   wdevices;
     vector<string>          devicesVector;
     vector<int>             devicesID;
@@ -32,9 +37,19 @@ public:
     bool                    needReset;
     bool                    isOneDeviceAvailable;
     bool                    hMirror, vMirror;
+        
+    //----------------- WARP -------------------
+    bool                    warpON;
+    ofPoint                 warp[4];
+    ofRectangle             corner[4];
+    ofPoint                 A, B, C, D;
+    int                     cualPunto;
+    bool                    moverPunto;
+    int                     paso;
+    bool                    resetWarping;
+    void                    warpingReset();
     
     //----------------- BG SUBTRACTION -------------------
-    ofxCvColorImage         colorImg;
     ofxCvGrayscaleImage     grayImg;
     ofxCvGrayscaleImage     grayBg;
     ofxCvGrayscaleImage     bitonal;
@@ -54,7 +69,6 @@ public:
     float                   adaptSpeed;
     
     bool                    bLearnBackground;
-    int                     bgImageShow;
     
     //---------------- CONTOUR FINDER --------------------
     ofxCv::ContourFinder    contourFinder;
@@ -77,28 +91,27 @@ public:
     int                     activeBlobs;
 
     //----------------- GUI -------------------
-    void drawGui();
-    ofxImGui::Gui gui;
+    void                    drawGui();
+    ofxImGui::Gui           gui;
 
-    bool show_bg_config_panel;
-    bool show_bd_config_panel;
-    
-    bool fullScreen;
-        
+    bool                    show_bg_config_panel;
+    bool                    show_bd_config_panel;
+            
     //----------------- OSC -------------------
-    ofxOscSender sender;
-    int puerto;
-    string host;
-    string etiquetaMensajeBlobs;
-    bool enviarBlobs;
-    bool enviarContornos;
+    ofxOscSender            sender;
+    int                     puerto;
+    string                  host;
+    string                  etiquetaMensajeBlobs;
+    bool                    enviarBlobs;
+    bool                    enviarContornos;
     
-    void enviarOsc(string etiqueda, float valor);
-    void enviarOsc(string etiqueda, vector<float> valores);
+    void                    enviarOsc(string etiqueda, float valor);
+    void                    enviarOsc(string etiqueda, vector<float> valores);
+    void                    updateOsc();
     
     //----------------- XML -------------------
-    ofxXmlSettings XML;
-    void saveSettings();
-    void loadSettings();
-    string xmlMessage;    
+    ofxXmlSettings          XML;
+    void                    saveSettings();
+    void                    loadSettings();
+    string                  xmlMessage;    
 };

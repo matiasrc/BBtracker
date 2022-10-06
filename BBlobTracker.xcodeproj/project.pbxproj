@@ -57,6 +57,10 @@
 		EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 402C8F4015542356D362AC88 /* Calibration.cpp */; };
 		F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2D8249D46647E3C51769CDE /* fdog.cpp */; };
 		F9C4274328921C77008EE52D /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C4274228921C77008EE52D /* gui.cpp */; };
+		F9CB821328EF9C770063E012 /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9CB820F28EF9C760063E012 /* settings.cpp */; };
+		F9CB821428EF9C770063E012 /* warping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9CB821028EF9C760063E012 /* warping.cpp */; };
+		F9CB821528EF9C770063E012 /* cam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9CB821128EF9C760063E012 /* cam.cpp */; };
+		F9CB821628EF9C770063E012 /* osc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9CB821228EF9C760063E012 /* osc.cpp */; };
 		FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 057122A817D12571F8C0C7A4 /* ofxCvGrayscaleImage.cpp */; };
 /* End PBXBuildFile section */
 
@@ -798,6 +802,10 @@
 		F9044EFC8B26588D9EFB0408 /* gproto.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = gproto.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gapi/gproto.hpp; sourceTree = SOURCE_ROOT; };
 		F95E7ABF9B85D07C2C73ECAB /* exports.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = exports.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gapi/own/exports.hpp; sourceTree = SOURCE_ROOT; };
 		F9C4274228921C77008EE52D /* gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gui.cpp; sourceTree = "<group>"; };
+		F9CB820F28EF9C760063E012 /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = settings.cpp; sourceTree = "<group>"; };
+		F9CB821028EF9C760063E012 /* warping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = warping.cpp; sourceTree = "<group>"; };
+		F9CB821128EF9C760063E012 /* cam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cam.cpp; sourceTree = "<group>"; };
+		F9CB821228EF9C760063E012 /* osc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = osc.cpp; sourceTree = "<group>"; };
 		F9EC3DDC0E9F85C34B21C760 /* object_factory.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = object_factory.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/object_factory.h; sourceTree = SOURCE_ROOT; };
 		FA293FDF68B93A949B8843D1 /* cvstd_wrapper.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = cvstd_wrapper.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/cvstd_wrapper.hpp; sourceTree = SOURCE_ROOT; };
 		FA3945EB4B55200EE5BBC918 /* interface.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = interface.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv4/opencv2/features2d/hal/interface.h; sourceTree = SOURCE_ROOT; };
@@ -2339,6 +2347,10 @@
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				F9C4274228921C77008EE52D /* gui.cpp */,
+				F9CB821128EF9C760063E012 /* cam.cpp */,
+				F9CB821228EF9C760063E012 /* osc.cpp */,
+				F9CB820F28EF9C760063E012 /* settings.cpp */,
+				F9CB821028EF9C760063E012 /* warping.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -2594,6 +2606,7 @@
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
 				EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */,
+				F9CB821628EF9C770063E012 /* osc.cpp in Sources */,
 				6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */,
 				45CC483A999BF1065A6B926C /* Distance.cpp in Sources */,
 				5CC34D433F5806179935B89D /* Flow.cpp in Sources */,
@@ -2620,10 +2633,12 @@
 				ADE367465D2A8EBAD4C7A8D9 /* IpEndpointName.cpp in Sources */,
 				67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */,
 				510CAFE035E576A4E1502D52 /* UdpSocket.cpp in Sources */,
+				F9CB821428EF9C770063E012 /* warping.cpp in Sources */,
 				62545D179C94265CA1389D4A /* OscOutboundPacketStream.cpp in Sources */,
 				C4782ECC372420ACE0615B74 /* OscPrintReceivedElements.cpp in Sources */,
 				0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */,
 				879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */,
+				F9CB821328EF9C770063E012 /* settings.cpp in Sources */,
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,
@@ -2631,6 +2646,7 @@
 				8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */,
 				933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */,
 				9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */,
+				F9CB821528EF9C770063E012 /* cam.cpp in Sources */,
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
 				63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */,
 			);

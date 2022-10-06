@@ -51,7 +51,7 @@ void ofApp::drawGui(){
             ImGui::Separator();
             if (ImGui::Button("Capturar fondo")){
                  bLearnBackground = true;
-             }
+            }
             ImGui::EndMenu();
         }
         
@@ -114,9 +114,16 @@ void ofApp::drawGui(){
                 ImGui::Separator();
                 ImGui::Checkbox("ESPEJAR HORIZONTAL", &hMirror);
                 ImGui::Checkbox("ESPEJAR VERTICAL", &vMirror);
-                        
+                
+                ImGui::Separator(); ImGui::Separator();
+                ImGui::Text("Ajustar perspectiva");
+                ImGui::SameLine(); HelpMarker("Ajuste de perspectiva de la imagen de entrada -> seleccionar los puntos con las teclas 1, 2, 3 y 4 ||  mover con el mouse o las flechas del teclado");
+                ImGui::Checkbox("habilitar (tecla w)", &warpON);
+                ImGui::InputInt("paso", &paso);
+                if (ImGui::Button("Resetear perspectiva")){
+                     resetWarping = true;
+                }
             ImGui::EndMenu();
-
         }
         
         if (ImGui::BeginMenu("|OSC|"))
@@ -155,10 +162,11 @@ void ofApp::drawGui(){
         }
         if (ImGui::BeginMenu("|ver|"))
         {
-            ImGui::RadioButton("original", &bgImageShow, 0);
-            ImGui::RadioButton("escala de grises", &bgImageShow, 1);
-            ImGui::RadioButton("fondo", &bgImageShow, 2);
-            ImGui::RadioButton("bitonal", &bgImageShow, 3); ImGui::SameLine(); HelpMarker("elegirl la imagen que se muestra");
+            ImGui::RadioButton("original", &imageView, 0);
+            ImGui::RadioButton("transformada", &imageView, 1);
+            ImGui::RadioButton("escala de grises", &imageView, 2);
+            ImGui::RadioButton("fondo", &imageView, 3);
+            ImGui::RadioButton("bitonal", &imageView, 4); ImGui::SameLine(); HelpMarker("elegirl la imagen que se muestra");
             
             ImGui::EndMenu();
         }
@@ -176,19 +184,7 @@ void ofApp::drawGui(){
 
             ImGui::EndMenu();
         }
-        /*
-        if (ImGui::BeginMenu("| Guardar", "cmd+s"))
-        {
-            saveSettings();
-            ofLogVerbose() << "Configuración guardada";
-            if (ImGui::MenuItem("Guardar", "cmd+s")) {
-                saveSettings();
-                ofLogVerbose() << "Configuración guardada";
-            }
-            
-            ImGui::EndMenu();
-        }
-        */
+
         ImGui::EndMainMenuBar();
     }
     // Menú flotante
@@ -209,15 +205,15 @@ void ofApp::drawGui(){
            
            ImGui::Separator();
            ImGui::Checkbox("fondo adaptativo", &adaptive); ImGui::SameLine(); HelpMarker("fondo adaptativo. El fondo se actualiza según la velocidad de apatación. Si esto está desactivado el fondo es fijo");
-           ImGui::SliderFloat("veloidad de adaptación", &adaptSpeed, 0.001f, 0.1f); ImGui::SameLine(); HelpMarker("velocidad a la que se actualiza el fondo. Mayor velocidad se adapta a cambios más rápidos a los cambios del fondo, a costa de una pérdida de presencia de los objetos");
+           ImGui::SliderFloat("velocidad de adaptación", &adaptSpeed, 0.001f, 0.1f); ImGui::SameLine(); HelpMarker("velocidad a la que se actualiza el fondo. Mayor velocidad se adapta a cambios más rápidos a los cambios del fondo, a costa de una pérdida de presencia de los objetos");
            
            ImGui::Separator();
            ImGui::Text("Ajustes de imagen");
-           ImGui::SliderFloat("brillo", &brightness, -1.0f, 1.0f); ImGui::SameLine(); HelpMarker("brillo de la imagen");
-           ImGui::SliderFloat("contraste", &contrast, -1.0f, 1.0f); ImGui::SameLine(); HelpMarker("contraste de la imagen");
-           ImGui::SliderInt("blur", &blur, 0, 30); ImGui::SameLine(); HelpMarker("desenfoque de la imagen, utilizado para eliminar ruido");
-           ImGui::Checkbox("dilate", &dilate); ImGui::SameLine(); HelpMarker("dilata el límite y aumenta el tamaño del objeto en primer plano");
-           ImGui::Checkbox("erode", &erode); ImGui::SameLine(); HelpMarker("erosiona el límite y reduce el tamaño del objeto en primer plano");
+           ImGui::SliderFloat("brillo", &brightness, -1.0f, 1.0f); ImGui::SameLine(); HelpMarker("brillo de la imagen (SOLO SE VE EN LA IMAGEN EN ESCALA DE GRISES)");
+           ImGui::SliderFloat("contraste", &contrast, -1.0f, 1.0f); ImGui::SameLine(); HelpMarker("contraste de la imagen (SOLO SE VE EN LA IMAGEN EN ESCALA DE GRISES)");
+           ImGui::SliderInt("blur", &blur, 0, 30); ImGui::SameLine(); HelpMarker("desenfoque de la imagen, utilizado para eliminar ruido (SOLO SE VE EN LA IMAGEN BITONAL)");
+           ImGui::Checkbox("dilate", &dilate); ImGui::SameLine(); HelpMarker("dilata el límite y aumenta el tamaño del objeto en primer plano (SOLO SE VE EN LA IMAGEN BITONAL)");
+           ImGui::Checkbox("erode", &erode); ImGui::SameLine(); HelpMarker("erosiona el límite y reduce el tamaño del objeto en primer plano (SOLO SE VE EN LA IMAGEN BITONAL)");
            
            ImGui::Separator();
            if (ImGui::Button("Capturar fondo")){
@@ -249,7 +245,7 @@ void ofApp::drawGui(){
            ImGui::Checkbox("Invertir", &invert); ImGui::SameLine(); HelpMarker("busca regiones oscuras en lugar de claras");
            ImGui::Checkbox("Buscar huecos", &findHoles); ImGui::SameLine(); HelpMarker("busca objetos (blobs) dentro de otros");
            ImGui::Separator();
-           ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c");
+           ImGui::Checkbox("Capturar color", &trackColor); ImGui::SameLine(); HelpMarker("detección de color (capturar un color de la pantalla mientras se presiona la tecla c)");
            ImGui::SameLine();
            ImGui::Checkbox("Modo HS", &trackHs); ImGui::SameLine(); HelpMarker("utilizar detección HS (con tilde) o RGB (sin tilde)");
 
