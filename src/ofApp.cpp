@@ -207,6 +207,8 @@ void ofApp::draw() {
         ofSetColor(0, 255, 255);
         pl.close();
         pl.draw();
+        
+        ofDrawBitmapStringHighlight("Deformación de entrada activada, presionad tecla w para salir", 5, ofGetHeight() - 25, ofColor(255,0, 0));
         ofPopStyle();
     }else{
         ofSetColor(0, 255, 0);

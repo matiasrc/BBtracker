@@ -2,7 +2,7 @@
 *.swp
 *~.nib
 
-bin/BBlobTracker
+bin/BBlobTracker.app
 xcuserdata
 
 *.pbxuser
