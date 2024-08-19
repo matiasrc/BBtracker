@@ -2,7 +2,7 @@
 Blob tracking with background subtraction and color tracking application, made with Openframeworks
 
 # Nueva Versión / New version
-Pueden encontrar una versión mejorada y más simple aquí: [https://github.com/matiasrc/BBlobTracker-lite] (https://github.com/matiasrc/BBlobTracker-lite) 
+Pueden encontrar una versión mejorada y más simple aquí: https://github.com/matiasrc/BBlobTracker-lite
 
 ## DEPENDENCIES ##
 
